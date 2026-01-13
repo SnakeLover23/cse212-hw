@@ -13,7 +13,18 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        return []; // replace this return statement with your own
+        //create a new array
+        double[] result = new double[length];
+
+        // loop through numbers one to "length"
+        for (int i = 1; i <= length; ++i)
+        {
+            // create multiples and populate array
+            result[i - 1] = number * i;
+        }
+
+        // returen results
+        return result;
     }
 
     /// <summary>
@@ -29,5 +40,44 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+
+        // create new list
+        int[] result = new int[data.Count];
+
+        // create index
+        int index = amount;
+
+        // loop through list
+        for (int i = 0; i < data.Count; ++i)
+        {
+            // loop for absurd amounts
+            bool end = false;
+            do
+            {
+                // wrap around to start
+                if (index >= data.Count)
+                {
+                    index = index - data.Count;
+                }
+                // for negative amounts
+                else if (index < 0)
+                {
+                    index = index + data.Count;
+                }
+                // end loop
+                else
+                {
+                    end = true;
+                }
+            }while (end == false);
+
+            // populate new list
+            result[index] = data[i];
+
+            // next index
+            index ++;
+        }
+        data = result.ToList();
+        
     }
 }
