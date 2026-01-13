@@ -77,7 +77,14 @@ public static class Arrays
             // next index
             index ++;
         }
-        data = result.ToList();
-        
+
+        // clear data list
+        data.Clear();
+
+        // repopulate data list
+        for (int i = 0; i < result.Length; ++i)
+        {
+            data.Add(result[i]);
+        } 
     }
 }
