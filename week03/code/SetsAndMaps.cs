@@ -21,10 +21,27 @@ public static class SetsAndMaps
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
     public static string[] FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
-    }
+        var wordsSet = new HashSet<string>(words);
 
+        var result = new List<string>();
+
+        foreach (string word in wordsSet)
+        {
+            wordsSet.Remove(word);
+            var reverse = word.ToCharArray();
+            char a = reverse[0];
+            char b = reverse[1];
+            reverse[0] = b;
+            reverse[1] = a;
+            
+            if (wordsSet.Contains($"{reverse[0]}{reverse[1]}"))
+            {
+                wordsSet.Remove($"{reverse[0]}{reverse[1]}");
+                result.Add($"{word} & {reverse[0]}{reverse[1]}");
+            }
+        }
+        return result.ToArray();
+    }
     /// <summary>
     /// Read a census file and summarize the degrees (education)
     /// earned by those contained in the file.  The summary
@@ -42,7 +59,14 @@ public static class SetsAndMaps
         foreach (var line in File.ReadLines(filename))
         {
             var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            if (degrees.ContainsKey(fields[3]))
+            {
+                degrees[fields[3]] += 1;
+            }
+            else
+            {
+                degrees[fields[3]] = 1;
+            }
         }
 
         return degrees;
@@ -66,8 +90,32 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        // I am unsure how a dictionary would even be implemented in this function
+
+        var newWord1 = word1.Replace(" ", "").ToLower();
+        var newWord2 = word2.Replace(" ", "").ToLower();
+
+        if (newWord1.Length == newWord2.Length)
+        {
+            var chars1 = newWord1.ToCharArray();
+            Array.Sort(chars1);
+            var chars2 = newWord2.ToCharArray();
+            Array.Sort(chars2);
+            var dict = new Dictionary<char, char>();
+
+            for (int i = 0; i < chars1.Length; i++)
+            {
+                if (chars1[i] != chars2[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -101,6 +149,15 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+
+        List<string> results = new List<string>();
+
+        foreach (Feature feature in featureCollection.Features)
+        {
+            results.Add($"{feature.Properties.Place} - Mag {feature.Properties.Mag}");
+        }
+
+
+        return results.ToArray();
     }
 }
