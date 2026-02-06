@@ -14,8 +14,15 @@ public static class Recursion
     /// </summary>
     public static int SumSquaresRecursive(int n)
     {
-        // TODO Start Problem 1
-        return 0;
+        if (n == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            double n2 = Math.Pow(1, 2);
+            return (int)n2 + SumSquaresRecursive(n - 1);
+        }
     }
 
     /// <summary>
@@ -39,7 +46,10 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
-        // TODO Start Problem 2
+        if (word == "")
+        {
+            
+        }
     }
 
     /// <summary>
