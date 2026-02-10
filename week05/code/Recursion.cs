@@ -20,7 +20,7 @@ public static class Recursion
         }
         else
         {
-            double n2 = Math.Pow(1, 2);
+            double n2 = Math.Pow(n, 2);
             return (int)n2 + SumSquaresRecursive(n - 1);
         }
     }
@@ -46,9 +46,48 @@ public static class Recursion
     /// </summary>
     public static void PermutationsChoose(List<string> results, string letters, int size, string word = "")
     {
+        char[] characters = letters.ToCharArray();
+        
+
         if (word == "")
         {
-            
+            foreach (char letter in letters)
+            {
+                string newLetters = "";
+                foreach (char character in characters)
+                {
+                    if (character != letter)
+                    {
+                        newLetters = $"{newLetters}{character}";
+                    }
+                }
+                PermutationsChoose(results, newLetters, size, letter.ToString());
+            }
+        }
+        else if (word.Length < size)
+        {;
+            foreach (char letter in letters)
+            {
+                string newWord = word;
+                string newLetters = "";
+                foreach (char character in characters)
+                {
+                    if (character != letter)
+                    {
+                        newLetters = $"{newLetters}{character}";
+                    }
+                }
+                newWord = $"{newWord}{letter}";
+                PermutationsChoose(results, newLetters, size, newWord);
+            }
+        }
+        else if (word.Length == size)
+        {
+            results.Add(word);
+        }
+        else
+        {
+            return;
         }
     }
 
@@ -105,12 +144,26 @@ public static class Recursion
             return 2;
         if (s == 3)
             return 4;
-
+        
         // TODO Start Problem 3
 
         // Solve using recursion
-        decimal ways = CountWaysToClimb(s - 1) + CountWaysToClimb(s - 2) + CountWaysToClimb(s - 3);
-        return ways;
+        
+        if (remember == null)
+        {
+            remember = new Dictionary<int, decimal>();
+        }
+
+        if (remember.ContainsKey(s))
+        {
+            return remember[s];
+        }
+        else
+        {
+            decimal ways = CountWaysToClimb(s - 1, remember) + CountWaysToClimb(s - 2, remember) + CountWaysToClimb(s - 3, remember);
+            remember[s] = ways;
+            return ways;
+        }
     }
 
     /// <summary>
@@ -129,6 +182,39 @@ public static class Recursion
     public static void WildcardBinary(string pattern, List<string> results)
     {
         // TODO Start Problem 4
+
+        char[] characters = pattern.ToCharArray();
+        int i = 0;
+        bool end = false;
+
+        while (end == false)
+        {
+            if (characters[i].ToString() == "*")
+            {
+                string newPattern = "";
+                characters[i] = char.Parse("0");
+                foreach (char character in characters)
+                {
+                    newPattern = $"{newPattern}{character}";
+                }
+                WildcardBinary(newPattern, results);
+                newPattern = "";
+
+                characters[i] = char.Parse("1");
+                foreach (char character in characters)
+                {
+                    newPattern = $"{newPattern}{character}";
+                }
+                WildcardBinary(newPattern, results);
+                end = true;
+            }
+            i++;
+            if (i == pattern.Length)
+            {
+                results.Add(pattern);
+                end = true;
+            }
+        }
     }
 
     /// <summary>
