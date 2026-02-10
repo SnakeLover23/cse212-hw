@@ -189,7 +189,12 @@ public static class Recursion
 
         while (end == false)
         {
-            if (characters[i].ToString() == "*")
+            if (i == pattern.Length)
+            {
+                results.Add(pattern);
+                end = true;
+            }
+            else if (characters[i].ToString() == "*")
             {
                 string newPattern = "";
                 characters[i] = char.Parse("0");
@@ -209,11 +214,7 @@ public static class Recursion
                 end = true;
             }
             i++;
-            if (i == pattern.Length)
-            {
-                results.Add(pattern);
-                end = true;
-            }
+            
         }
     }
 
